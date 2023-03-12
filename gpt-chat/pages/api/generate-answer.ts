@@ -30,16 +30,13 @@ export default async function handler(
     }
 
     // https://platform.openai.com/docs/api-reference/completions
-    const aiResult = await openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: `${prompt}`,
-        temperature: 0.9, // higher values means the model will take more risks
-        max_tokens: 2048, // the maximum number of tokens to generate in the completion
-        frequency_penalty: 0.5, // number between -2.0 and 2.0
-        presence_penalty: 0 // number between -2.0 and 2.0
+    const aiResult = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [{"role": "user", "content": `${prompt}`}],
+        temperature: 0.7
     })
 
-    const response = aiResult.data.choices[0].text?.trim() || 'Sorry, there was a problem!';
+    const response = aiResult.data.choices[0].message?.content?.trim() || 'Sorry, there was a problem!';
     res.status(200).json({ text: response });
     
 }
