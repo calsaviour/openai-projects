@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap");
+
 * {
   padding: 0;
   margin: 0;
@@ -9,18 +10,28 @@ body {
   background-color: #eee;
 }
 
+.layout {
+  display: flex;
+  height: 100vh;
+  gap: 2rem;
+}
+
+.sidebar__wrapper {
+  position: relative;
+}
+
 .sidebar {
   width: 17rem;
   height: 100%;
   background-color: #fff;
   padding: 1rem;
-  transition: all 0.3s linear;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .sidebar__top {
   width: max-content;
   display: flex;
-  align-content: center;
+  align-items: center;
   gap: 1rem;
   padding-bottom: 1rem;
   margin-bottom: 1rem;
@@ -57,4 +68,36 @@ body {
 
 .sidebar__name {
   margin-left: 0.5rem;
+}
+
+.sidebar__logo-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.btn {
+  position: absolute;
+  right: 0;
+  top: 4.7rem;
+  border: none;
+  background-color: #fff;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transform:  translateX(50%);
+  font-size: 1.1rem;
+}
+
+[data-collapse="true"] {
+  width: 5.3rem;
+}
+
+[data-collapse="true"] .sidebar__name,
+[data-collapse="true"] .sidebar__logo-name {
+  display: none;
 }

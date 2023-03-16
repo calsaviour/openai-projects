@@ -1,11 +1,11 @@
 
 import BaseLayout from "@/components/BaseLayout";
 
-export default function Home() {
+export default function About() {
   return (
     <>
       <BaseLayout>
-        <div>Home Page</div>
+        <div>About Page</div>
       </BaseLayout>
     </>
   )
