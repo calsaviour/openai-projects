@@ -1,14 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MdDashboard, MdOutlineKeyboardArrowLeft } from "react-icons/md"
+import { MdOutlineKeyboardArrowLeft } from "react-icons/md"
 import { AiOutlineHome } from "react-icons/ai";
 import { BsPeople } from "react-icons/bs";
 import { TiContacts } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { useContext } from "react";
+import { SidebarContext } from "./SidebarContext";
 import { useRouter } from "next/router";
-import { useState } from "react";
-
 
 const sidebarItems = [
     {
@@ -34,13 +33,8 @@ const sidebarItems = [
   ];
 
 export default function Sidebar() {
-    const [isCollapsedSidebar, setIsCollapsedSidebar] = useState<boolean>(false);
-
-    const toogleSidebarCollapseHandler = () => {
-        setIsCollapsedSidebar((prev) => !prev);
-    };
-    
     const router = useRouter();
+    const { isCollapsedSidebar, toogleSidebarCollapseHandler } = useContext(SidebarContext);
 
     return (
         <div className="sidebar__wrapper">
