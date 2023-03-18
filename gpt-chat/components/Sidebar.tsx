@@ -2,40 +2,41 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md"
 import { AiOutlineHome } from "react-icons/ai";
-import { BsPeople } from "react-icons/bs";
+import { BsPeople, BsRobot } from "react-icons/bs";
 import { TiContacts } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { useContext } from "react";
 import { SidebarContext } from "./SidebarContext";
 import { useRouter } from "next/router";
 
+
 const sidebarItems = [
     {
-      name: "Home",
-      href: "/",
-      icon: AiOutlineHome,
+        name: "Home",
+        href: "/",
+        icon: AiOutlineHome,
     },
     {
         name: "ChatGPT",
         href: "/chatgpt",
-        icon: AiOutlineHome,
-      },
-    {
-      name: "About",
-      href: "/about",
-      icon: BsPeople,
+        icon: BsRobot,
     },
     {
-      name: "Mails",
-      href: "/mails",
-      icon: FiMail,
+        name: "About",
+        href: "/about",
+        icon: BsPeople,
     },
     {
-      name: "Contact",
-      href: "/contact",
-      icon: TiContacts,
+        name: "Mails",
+        href: "/mails",
+        icon: FiMail,
     },
-  ];
+    {
+        name: "Contact",
+        href: "/contact",
+        icon: TiContacts,
+    },
+];
 
 export default function Sidebar() {
     const router = useRouter();
@@ -58,25 +59,24 @@ export default function Sidebar() {
                     <p className="sidebar__logo-name">ChatBot Aggregator</p>
                 </div>
                 <ul className="sidebar__list">
-                    {sidebarItems.map( ({name, href, icon: Icon})=> {
+                    {sidebarItems.map(({ name, href, icon: Icon }) => {
                         return (
                             <li className="sidebar__item" key={name}>
                                 <Link
-                                    className={`sidebar__link ${
-                                        router.pathname == href ? "sidebar__link--active" : ""
-                                    }`}
+                                    className={`sidebar__link ${router.pathname == href ? "sidebar__link--active" : ""
+                                        }`}
                                     href={href}
                                 >
-                                <span
-                                    className="sidebar__icon"
-                                >
-                                    <Icon />
-                                </span>
-                                <span
-                                    className="sidebar__name"
-                                >
-                                    {name}
-                                </span>
+                                    <span
+                                        className="sidebar__icon"
+                                    >
+                                        <Icon />
+                                    </span>
+                                    <span
+                                        className="sidebar__name"
+                                    >
+                                        {name}
+                                    </span>
                                 </Link>
                             </li>
                         )
