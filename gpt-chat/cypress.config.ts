@@ -12,7 +12,6 @@ export default defineConfig({
     viewportHeight: 1080,
     viewportWidth: 1920,
     video: false,
-    screenshotOnRunFailure: false,
-    experimentalSessionAndOrigin: true,
+    screenshotOnRunFailure: false
   },
 });
