@@ -1,6 +1,9 @@
-name: E2E on Chrome
+name: gpt chat - E2E on Chrome
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'gpt-chat/**'
 
 jobs:
   install:
@@ -12,7 +15,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v3
         with:
-          project: ./gpt-chat
+          working-directory: gpt-chat
           browser: chrome
           build: npm run build
           start: npm run start
