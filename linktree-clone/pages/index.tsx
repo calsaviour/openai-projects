@@ -73,11 +73,26 @@ export default function Home() {
   }
 
   const uploadProfilePicture = async () => {
-    if (images.length > 0) {
-      const image = images[0];
-      if (image.file && userId) {
-        const { data, error } = await supabase.storage.from("public").upload()
+    try {
+      if (images.length > 0) {
+          const image = images[0];
+          if (image.file && userId) {
+            const { data, error } = await supabase.storage.from("public")
+            .upload(`${userId}/${image.file.name}`, image.file , {
+              upsert: true
+            });
+          if (error) throw error;
+          const resp = supabase.storage.from("public").getPublicUrl(data.path);
+          const publicUrl = resp.data.publicUrl;
+          const updateUserResponse = await supabase
+                .from("users")
+                .update({profile_picture_url: publicUrl })
+                .eq("id", userId);
+          if (updateUserResponse.error) throw error
+        }
       }
+    } catch (error) {
+      console.log("error: ", error);
     }
   }
 
