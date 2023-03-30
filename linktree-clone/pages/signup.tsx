@@ -4,6 +4,7 @@ import { useState } from "react";
 export default function SignUp() {
     const [email, setEmail] = useState<string | undefined>();
     const [password, setPassword] = useState<string | undefined>();
+    const [username, setUsername] = useState<string | undefined>();
 
     async function signUpWithEmail() {
       try {
@@ -26,7 +27,12 @@ export default function SignUp() {
 
     async function createUser(userId: string) {
       try {
-        const { error } = await supabase.from("users").insert({id: userId});
+        const { error } = await supabase
+          .from("users")
+          .insert({
+              id: userId,
+              username: username
+          });
         if (error) throw error;
       } catch (error) {
         console.log("error: ", error)
@@ -59,6 +65,20 @@ export default function SignUp() {
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             placeholder="password"
             onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900 mt-4">
+          Username
+        </label>
+        <div className="mt-2">
+          <input
+            type="text"
+            name="username"
+            id="username"
+            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            placeholder="username"
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
 

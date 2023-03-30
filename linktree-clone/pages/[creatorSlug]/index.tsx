@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import supabase from "@/utils/supabaseClient";
 import Image from "next/image";
 import ImageUploading, { ImageListType } from "react-images-uploading";
+import { useRouter } from "next/router";
 
 type Link = {
   title: string,
@@ -15,6 +16,9 @@ export default function Home() {
   const [url, setUrl] = useState<string | undefined>();
   const [links, setLinks] = useState<Link[]>();
   const [images, setImages] = useState<ImageListType>([]);
+  const [profilePictureUrl ,setProfilePictureUrl] = useState<string | undefined>();
+  const router = useRouter();
+  const { creatorSlug } = router.query;
 
   const onChange = (imageList: ImageListType) => {
     setImages(imageList);
@@ -50,6 +54,29 @@ export default function Home() {
       getLinks();
     }
   }, [userId]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        if (userId) {
+          const { data, error } = await supabase
+            .from("users")
+            .select("id, profile_picture_url")
+            .eq("username", creatorSlug);
+            if (error) throw error
+          const profilePictureUrl = data[0]["profile_picture_url"];
+          const userId = data[0]["id"];
+          setProfilePictureUrl(profilePictureUrl);
+          setUserId(userId);
+        }
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+    if (creatorSlug) {
+      getUser();
+    }
+  }, [creatorSlug]);
 
   const addNewLink = async () => {
     try {
@@ -98,6 +125,13 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full justify-center items-center mt-4">
+      {profilePictureUrl && 
+        <Image src={profilePictureUrl}
+                alt="profile-picture"
+                height={100}
+                width={100}
+                className="rounded-full"
+      />}
       {links?.map((link: Link, index: number) => (
         <div
           className="shadow-lg w-96 bg-indigo-500 mt-4 p-4 rounded-lg text-center text-white"

@@ -16,7 +16,7 @@ export default function Login() {
           if (resp.error) throw resp.error;
           const userId = resp.data.user?.id;
           console.log("userId:", userId);
-          router.push("/");
+          router.push("/calvin");
         }
       } catch (error) {
         console.log("error:", error)
