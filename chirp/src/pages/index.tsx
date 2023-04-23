@@ -37,14 +37,14 @@ const PostView = (props: PostWithUser) => {
       <Image
         src={author.profileImageUrl}
         className="h-14 w-14 rounded-full"
-        alt={`@${author.username}'s profile picture`}
+        alt={`@${author.username}'s profile picture` || ""}
         width={56}
         height={56}
       />
       <div className="flex flex-col">
         <div className="flex gap-1 text-slate-400">
           <span>
-            {`@${author.username}`}
+            {`@${author.username}` || ""}
           </span>
           <span className="font-thin">
             {`. ${dayjs(post.createdAt).fromNow()}`}
