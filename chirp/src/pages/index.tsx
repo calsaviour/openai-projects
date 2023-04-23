@@ -32,20 +32,19 @@ type PostWithUser = RouterOutputs["posts"]["getAll"][number];
 
 const PostView = (props: PostWithUser) => {
   const { post, author } = props;
+  if (!author) return null;
   return (
     <div key={post.id} className="flex border-b border-slate-400 p-4 gap-3">
       <Image
         src={author.profileImageUrl}
         className="h-14 w-14 rounded-full"
-        alt={`@${author.username}'s profile picture` || ""}
+        alt={`@${author.username}'s profile picture`}
         width={56}
         height={56}
       />
       <div className="flex flex-col">
         <div className="flex gap-1 text-slate-400">
-          <span>
-            {`@${author.username}` || ""}
-          </span>
+          <span>{`@${author.username} `}</span>
           <span className="font-thin">
             {`. ${dayjs(post.createdAt).fromNow()}`}
           </span>
