@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-ally/alt-text */
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
@@ -7,15 +9,21 @@ import { Button } from "~/components/Button";
 import { FormGroup } from "~/components/FormGroup";
 import { Input } from "~/components/input";
 import { api } from "~/utils/api";
+import Image from 'next/image'
+
 
 const GeneratePage: NextPage = () => {
   const [form, setForm] = useState({
     prompt: "",
   });
 
+  const [imageUrl, setImageUrl] = useState('');
+
   const generateIcon =  api.generate.generateIcon.useMutation({
     onSuccess(data) {
-      console.log("mutation finished", data )
+      console.log("mutation finished", data.imageUrl )
+      if(!data.imageUrl) return;
+      setImageUrl(data.imageUrl);
     }
   });
 
@@ -34,6 +42,7 @@ const GeneratePage: NextPage = () => {
     generateIcon.mutate({
       prompt: form.prompt
     });
+    setForm("");
   }
 
   const session = useSession();
@@ -70,6 +79,13 @@ const GeneratePage: NextPage = () => {
             </FormGroup>
             <button className="rounded bg-blue-400 px-4 py-2 hover:bg-blue-500">Submit</button>
         </form>
+      
+        <img
+            src={`data:image/png;base64,${imageUrl}`}
+            alt="Picture of the author"
+            width={98}
+            height={98}
+          />
       </main>
     </>
   );
