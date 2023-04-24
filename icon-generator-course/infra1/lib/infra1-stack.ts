@@ -14,7 +14,7 @@ export class InfraStack extends cdk.Stack {
     // Create an S3 bucket
     const bucket = new s3.Bucket(this, 'icon-generator-course-2', {
       bucketName: 'icon-generator-course-2',
-      publicReadAccess: true,
+      publicReadAccess: false,
       versioned: false
     });
 
