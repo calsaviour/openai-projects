@@ -15,7 +15,8 @@ export class InfraStack extends cdk.Stack {
     const bucket = new s3.Bucket(this, 'icon-generator-course-2', {
       bucketName: 'icon-generator-course-2',
       publicReadAccess: false,
-      versioned: false
+      versioned: false,
+      websiteIndexDocument: 'index.html',
     });
 
     // Define the IAM user
@@ -30,8 +31,19 @@ export class InfraStack extends cdk.Stack {
       resources: [bucket.arnForObjects('*')],
     });
 
+    // Bucket Policy
+    const bucketPolicy = new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ['s3:GetObject'],
+      resources: [`${bucket.bucketArn}/*`],
+      principals: [new iam.AnyPrincipal()],
+    });
+
     // Attach the policy to the user
     user.addToPolicy(policy);
+
+    // Attach the bucket policy to the S3 Bucket
+    bucket.addToResourcePolicy(bucketPolicy);
 
     // Create an access key for the user
     const iamClient = new aws.IAM();
