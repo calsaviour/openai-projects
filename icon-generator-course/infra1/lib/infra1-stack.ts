@@ -39,11 +39,23 @@ export class InfraStack extends cdk.Stack {
       principals: [new iam.AnyPrincipal()],
     });
 
+    // CORS Configuration
+    const corsRule = {
+      allowedHeaders: ['*'],
+      allowedMethods: [s3.HttpMethods.GET],
+      allowedOrigins: ['*'],
+      exposedHeaders: [],
+      maxAge: 0,
+    };
+
     // Attach the policy to the user
     user.addToPolicy(policy);
 
     // Attach the bucket policy to the S3 Bucket
     bucket.addToResourcePolicy(bucketPolicy);
+
+    // Attach CORS to the S3 Bucket
+    bucket.addCorsRule(corsRule);
 
     // Create an access key for the user
     const iamClient = new aws.IAM();
