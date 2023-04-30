@@ -73,12 +73,19 @@ export const generateRouter = createTRPCRouter({
 
       // TODO: make a fetch request to DALLE api
       const base64EncodedImage = await generateIcon(input.prompt);
+
+      const icon = await ctx.prisma.icon.create({
+        data: {
+          prompt: input.prompt,
+          userId: ctx.session.user.id
+        },
+      });
       
       // TODO: save images to S3 bucket
       await s3.putObject({
         Bucket: 'icon-generator-course-2',
         Body: Buffer.from(base64EncodedImage!, "base64"),
-        Key: 'my-imageb',
+        Key: icon.id,
         ContentEncoding: "base64",
         ContentType: "image/gif"
       })
