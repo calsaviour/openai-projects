@@ -81,7 +81,7 @@ const GeneratePage: NextPage = () => {
         </form>
       
         <img
-            src={`data:image/png;base64,${imageUrl}`}
+            src={imageUrl}
             alt="Picture of the author"
             width={98}
             height={98}
