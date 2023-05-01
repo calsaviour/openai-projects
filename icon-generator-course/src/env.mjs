@@ -24,7 +24,10 @@ const server = z.object({
   DALLE_API_KEY: z.string(),
   MOCK_DALLE: z.string(),
   ACCESS_KEY_ID: z.string(),
-  SECRET_ACCESS_KEY: z.string()
+  SECRET_ACCESS_KEY: z.string(),
+  STRIPE_SECRET_KEY: z.string(),
+  HOST_NAME: z.string(),
+  PRICE_ID: z.string()
 });
 
 /**
@@ -35,6 +38,7 @@ const client = z.object(
   /** @satisfies {Record<`NEXT_PUBLIC_${string}`, import('zod').ZodType>} */ (
     {
       // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+      NEXT_PUBLIC_STRIPE_KEY: z.string(),
     }
   ),
 );
@@ -55,7 +59,11 @@ const processEnv = {
   DALLE_API_KEY: process.env.DALLE_API_KEY,
   MOCK_DALLE: process.env.MOCK_DALLE,
   ACCESS_KEY_ID: process.env.ACCESS_KEY_ID,
-  SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY
+  SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY,
+  NEXT_PUBLIC_STRIPE_KEY: process.env.NEXT_PUBLIC_STRIPE_KEY,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  HOST_NAME: process.env.HOST_NAME,
+  PRICE_ID: process.env.PRICE_ID
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 

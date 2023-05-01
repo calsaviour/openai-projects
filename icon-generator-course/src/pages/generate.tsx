@@ -42,7 +42,7 @@ const GeneratePage: NextPage = () => {
     generateIcon.mutate({
       prompt: form.prompt
     });
-    setForm("");
+    setForm('');
   }
 
   const session = useSession();
