@@ -14,7 +14,7 @@ const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
 export const checkoutRouter = createTRPCRouter({
   createCheckout: protectedProcedure.mutation(async({ ctx }) => {
     return stripe.checkout.sessions.create({
-        payment_method_types: ["card", "us_bank_account"],
+        payment_method_types: ["card"],
         metadata: {
           userId: ctx.session.user.id
         },
