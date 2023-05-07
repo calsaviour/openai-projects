@@ -26,6 +26,7 @@ const server = z.object({
   ACCESS_KEY_ID: z.string(),
   SECRET_ACCESS_KEY: z.string(),
   STRIPE_SECRET_KEY: z.string(),
+  STRIPE_WEB_HOOK_SECRET: z.string(),
   HOST_NAME: z.string(),
   PRICE_ID: z.string()
 });
@@ -61,6 +62,7 @@ const processEnv = {
   ACCESS_KEY_ID: process.env.ACCESS_KEY_ID,
   SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY,
   NEXT_PUBLIC_STRIPE_KEY: process.env.NEXT_PUBLIC_STRIPE_KEY,
+  STRIPE_WEB_HOOK_SECRET: process.env.STRIPE_WEB_HOOK_SECRET,
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
   HOST_NAME: process.env.HOST_NAME,
   PRICE_ID: process.env.PRICE_ID
