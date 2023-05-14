@@ -20,7 +20,9 @@ export function Header() {
             <ul>
                 {isLoggedIn && (
                     <li>
-                        <Button onClick={() => {
+                        <Button
+                            variant="secondary"
+                            onClick={() => {
                             signOut().catch(console.error)
                         }}>
                             Logout
