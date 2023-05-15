@@ -1,10 +1,12 @@
 import { signIn, signOut, useSession } from "next-auth/react";
-import Link from "next/link";
 import { Button } from "./Button";
 import { PrimaryLink } from "./PrimaryLink";
+import { useBuyCredits } from "~/hooks/useBuyCredits";
+
 
 export function Header() {
     const session = useSession();
+    const { buyCredits } = useBuyCredits();
     const isLoggedIn = !!session.data;
 
     return (
@@ -17,17 +19,26 @@ export function Header() {
                     <PrimaryLink href="/generate">Generate</PrimaryLink>
                 </li>
             </ul>
-            <ul>
+            <ul className="flex gap-4">
                 {isLoggedIn && (
-                    <li>
-                        <Button
-                            variant="secondary"
-                            onClick={() => {
-                            signOut().catch(console.error)
-                        }}>
-                            Logout
-                        </Button>
-                    </li>
+                    <>
+                        <li>
+                            <Button onClick={() => {
+                                buyCredits().catch(console.error)
+                                }}>
+                                Buy Credits
+                            </Button>
+                        </li>
+                        <li>
+                            <Button
+                                variant="secondary"
+                                onClick={() => {
+                                signOut().catch(console.error)
+                            }}>
+                                Logout
+                            </Button>
+                        </li>
+                    </>
                 )}
                 {!isLoggedIn && (
                     <li>
