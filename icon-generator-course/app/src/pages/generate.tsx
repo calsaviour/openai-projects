@@ -1,7 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-/* eslint-disable jsx-ally/alt-text */
 import { type NextPage } from "next";
-import clxs from "clsx";
 import Head from "next/head";
 import Image from "next/image";
 import React, { useState } from "react";
