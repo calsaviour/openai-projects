@@ -16,7 +16,7 @@ function HeroBanner() {
       <PrimaryLinkButton href="/generate" className="self-start">Generate your icons</PrimaryLinkButton>
     </div>
     <Image 
-      src="/banner.png"
+      src="/banner_.png"
       alt="an image of a bunch of nice looking icon"
       width="400"
       height="300"
