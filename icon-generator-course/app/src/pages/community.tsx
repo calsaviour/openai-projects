@@ -4,17 +4,17 @@ import Head from "next/head";
 import Image from "next/image";
 import { api } from "~/utils/api";
 
-const CollectionPage: NextPage = () => {
-  const icons = api.icons.getIcons.useQuery();
+const CommunityPage: NextPage = () => {
+  const icons = api.icons.getCommunityIcons.useQuery();
   return (
     <>
       <Head>
-        <title>Your Icons</title>
-        <meta name="description" content="Your Icons" />
+        <title>Community Icons</title>
+        <meta name="description" content="Community Icons" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="mt-24 min-h-screen flex container mx-auto flex-col gap-4 px-8">
-        <h1 className="text-4xl">Your Icons</h1>
+        <h1 className="text-4xl">Community Icons</h1>
         <ul className="gap-4 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6">          
             {icons.data?.map(icon =>(
               <li key={icon.id}>
@@ -33,5 +33,5 @@ const CollectionPage: NextPage = () => {
   );
 };
 
-export default CollectionPage;
+export default CommunityPage;
 
