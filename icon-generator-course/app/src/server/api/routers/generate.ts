@@ -24,20 +24,20 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-async function generateIcon(prompt: string): Promise<string | undefined> {
+async function generateIcon(prompt: string, numberOfIcons = 1 ) {
   if(env.MOCK_DALLE === 'true') {
-    return b64Image
+    return new Array<string>(numberOfIcons).fill(b64Image)
   } else {
     const response = await openai.createImage({
       prompt,
-      n: 1,
+      n: numberOfIcons,
       size: "512x512",
       response_format: "b64_json"
     });
     console.log("----");
     console.log(response.data.data[0]?.b64_json)
     console.log("----");
-    return response.data.data[0]?.b64_json;
+    return response.data.data.map((result) => result.b64_json || "");
   }
 }
 
@@ -48,6 +48,7 @@ export const generateRouter = createTRPCRouter({
       z.object({
         prompt: z.string(),
         color: z.string(),
+        numberOfIcons: z.number().min(1).max(10),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -76,27 +77,32 @@ export const generateRouter = createTRPCRouter({
 
       const finalPrompt = `a modern icon in ${input.color} of a ${input.prompt}`
       // TODO: make a fetch request to DALLE api
-      const base64EncodedImage = await generateIcon(finalPrompt);
-
-      const icon = await ctx.prisma.icon.create({
-        data: {
-          prompt: input.prompt,
-          userId: ctx.session.user.id
-        },
-      });
+      const base64EncodedImages = await generateIcon(finalPrompt, input.numberOfIcons);
       
       // TODO: save images to S3 bucket
-      await s3.putObject({
-        Bucket: BUCKET_NAME,
-        Body: Buffer.from(base64EncodedImage!, "base64"),
-        Key: icon.id,
-        ContentEncoding: "base64",
-        ContentType: "image/gif"
-      })
-      .promise()
+      const createdIcons = await Promise.all(base64EncodedImages.map(async (image) => {
+        const icon = await ctx.prisma.icon.create({
+          data: {
+            prompt: input.prompt,
+            userId: ctx.session.user.id
+          },
+        });
 
-      return {
-        imageUrl: `https://${BUCKET_NAME}.s3.amazonaws.com/${icon.id}`,
-      };
+        await s3.putObject({
+          Bucket: BUCKET_NAME,
+          Body: Buffer.from(image, "base64"),
+          Key: icon.id,
+          ContentEncoding: "base64",
+          ContentType: "image/gif"
+        })
+        .promise();
+        return icon;
+      }));
+
+      return createdIcons.map((icon) => {
+        return {
+          imageUrl: `https://${BUCKET_NAME}.s3.amazonaws.com/${icon.id}`,
+        }
+      });
     }),
 });
