@@ -26,8 +26,6 @@ function HeroBanner() {
 }
 
 const HomePage: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
   return (
     <>
       <Head>
